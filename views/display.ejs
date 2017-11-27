@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="https://getbootstrap.com/favicon.ico"> -->
+
+    <title>Restaurants - <%=r.name%></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/jumbotron/jumbotron.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">Restaurants</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="new">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search">Search</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+          <input class="form-control mr-sm-2" type="text" name="name" placeholder="Search for Name" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> | 
+        <form class="form-inline my-2 my-lg-0" action="/logout" method="get">
+            <button class="btn btn-warning my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+      </div>
+    </nav>
+
+    <main role="main">
+      <div class="container">
+
+        <h1><%=r.name%></h1>
+        
+        <% if (r.mimetype!='' && r.photo!='') { %>
+          <img src="data:<%=r.mimetype%>;base64,<%=r.photo%>" width="600" class="rounded mx-auto d-block" alt="">
+        <% } %>
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th width="20%">Details</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Restaurant ID</th>
+                <td><%=r._id%></td>
+              </tr>
+              <tr>
+                <th>Borough</th>
+                <td><%=(r.borough)?r.borough:"N/A"%></td>
+              </tr>
+              <tr>
+                <th>Cuisine</th>
+                <td><%=(r.cuisine)?r.cuisine:"N/A"%></td>
+              </tr>
+              <tr>
+                <th>Street</th>
+                <td><%=(r.address.street)?r.address.street:"N/A"%></td>
+              </tr>
+              <tr>
+                <th>Building</th>
+                <td><%=(r.address.building)?r.address.building:"N/A"%></td>
+              </tr>
+              <tr>
+                <th>Zipcode</th>
+                <td><%=(r.address.zipcode)?r.address.zipcode:"N/A"%></td>
+              </tr>
+              <tr>
+                <th>GPS</th>
+                <td>
+                  <div class="row">
+                    <div class="col-md-10">
+                      lon: <%=(r.address.coord[0])?r.address.coord[0]:"N/A"%>, lat: <%=(r.address.coord[1])?r.address.coord[1]:"N/A"%>
+                    </div>
+                    <% if (Number(r.address.coord[0])&&Number(r.address.coord[1])) { %>
+                      <div class="col">
+                          &nbsp;
+                      </div>
+                      <div class="col">
+                          <a class="btn btn-success my-2 my-sm-0" href="/map?_id=<%=r._id%>&name=<%=r.name%>&lon=<%=r.address.coord[0]%>&lat=<%=r.address.coord[1]%>" role="button">Map</a>
+                      </div>
+                    <% } %>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>Photo Mimetype</th>
+                <td><%=(r.mimetype)?r.mimetype:"N/A"%></td>
+              </tr>
+              <tr>
+                <th>Rating</th>
+                <td>
+                  <% var voted = false; %>
+                    <form action="/rate" method="post">
+                      <input type="hidden" name="_id" value="<%=r._id%>">
+                      <div class="form-row">
+                      <div class="col-md-10">
+                        <% if (r.grades.length>0) { %>
+                          <ol>
+                            <% for (i in r.grades) { %>
+                              <li><%=r.grades[i].score%> (<%=r.grades[i].user%>)</li>
+                              <% if (userid==r.grades[i].user) voted = true; %>
+                            <% } %>
+                          </ol>
+                        <% } else { %>
+                          <!-- For no rating record handling-->
+                          <p>Be the first to vote this!</p>
+                        <% } %>
+                      </div>
+                          <!-- enctype="multipart/form-data" -->
+                      <% if (voted) { %>
+                        <div class="col">
+                          &nbsp;
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-secondary my-2 my-sm-0" href="#" role="button">Rated</a>
+                        </div>
+                      <% } else { %>
+                        <div class="col">
+                          <select class="form-control" name="score">
+                            <% for (var i = 10; i>0; i--) { %>
+                              <option><%=i%></option>
+                            <% } %>
+                          </select>
+                        </div>
+                        <div class="col">
+                          <button class="btn btn-success my-2 my-sm-0" type="submit">Rate</button>
+                        </div>
+                      <% } %>
+                      
+                      </div>
+                    </form>
+                </td>
+              </tr>
+              <tr>
+                <th>Owner</th>
+                <td><%=r.owner%></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          <a class="btn btn-success btn-lg" href="/" role="button">&laquo; Back to Home</a>
+          <% if (userid==r.owner) { %>
+            <a class="btn btn-success btn-lg" href="/change?_id=<%=r._id%>" role="button">Edit</a>
+            <a class="btn btn-success btn-lg" href="/remove?_id=<%=r._id%>" role="button">Delete</a>
+          <% } else { %>
+            <a class="btn btn-secondary btn-lg" href="#" role="button">Edit</a>
+            <a class="btn btn-secondary btn-lg" href="#" role="button">Delete</a>
+          <% } %>
+        </p>
+          
+        <hr>
+
+      </div> <!-- /container -->
+
+    </main>
+
+    <footer class="container">
+      <p>11784655 SUEN YIK KIN | 11388591 YU KA LEE &copy; OUHK 2017-2018</p>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Restaurants - Login OR Resgistration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <% var msg; %>
+      <% var preinput1; %>
+      <% var preinput2; %>
+        <form class="form-signin"><h4 class="form-signin-heading"><%=msg%></h4></form>
+      
+      
+
+      <form class="form-signin" action="/login" method="post">
+        <input type="hidden" name="way" value="1">
+        <h2 class="form-signin-heading">Login</h2>
+        <label for="inputName" class="sr-only">User Name</label>
+        <input type="text" id="inputName" name="inputName" class="form-control" placeholder="User Name" value="<%=preinput1%>" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" value="<%=preinput2%>">
+        <!-- <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div> -->
+        <button class="btn btn-lg btn-success btn-block" type="submit">Login</button>
+      </form>
+
+      <form class="form-signin"><h2 class="form-signin-heading"><center>OR</center></h2></form>
+
+      <form class="form-signin" action="/login" method="post">
+        <input type="hidden" name="way" value="2">
+        <h2 class="form-signin-heading">Resgistration</h2>
+        <label for="inputName" class="sr-only">User Name</label>
+        <input type="text" id="inputName" name="inputName" class="form-control" placeholder="User Name" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password">
+        <!-- <label for="confirmPassword" class="sr-only">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" required> -->
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Regist Now</button>
+      </form>
+
+    </div> <!-- /container -->
+  </body>
+</html>

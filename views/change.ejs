@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="https://getbootstrap.com/favicon.ico"> -->
+
+    <title>Restaurants - <%=r.name%> [Edit Mode]</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/jumbotron/jumbotron.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">Restaurants</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="new">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search">Search</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+          <input class="form-control mr-sm-2" type="text" name="name" placeholder="Search for Name" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> | 
+        <form class="form-inline my-2 my-lg-0" action="/logout" method="get">
+            <button class="btn btn-warning my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+      </div>
+    </nav>
+
+    <main role="main">
+      <div class="container">
+
+      <!--<main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">-->
+        <h1><%=r.name%> [Edit Mode]</h1>
+
+        <% if (r.mimetype!='' && r.photo!='') { %>
+          <img src="data:<%=r.mimetype%>;base64,<%=r.photo%>" width="600" class="rounded mx-auto d-block" alt="">
+        <% } %>
+
+        <!--<h2>Details</h2>-->
+      
+        <form action="/change" method="post" encType="multipart/form-data">
+        <input type="hidden" name="_id" value="<%=r._id%>">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <!-- <thead>
+              <tr>
+                <th width="20%">Edit</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead> -->
+            <tbody>
+              <tr>
+                <th width="20%">Restaurant ID</th>
+                <td><input class="form-control" type="text" value="<%=r._id%>" readonly></td>
+              </tr>
+              <tr>
+                <th>Restaurant Name [*]</th>
+                <td><input class="form-control" type="text" name="name" placeholder="Restaurant Name (Required)" value="<%=r.name%>" required></td>
+              </tr>
+              <tr>
+                <th>Borough</th>
+                <td><input class="form-control" type="text" name="borough" placeholder="Borough" value="<%=r.borough%>"></td>
+              </tr>
+              <tr>
+                <th>Cuisine</th>
+                <td><input class="form-control" type="text" name="cuisine" placeholder="Cuisine" value="<%=r.cuisine%>"></td>
+              </tr>
+              <tr>
+                <th>Street</th>
+                <td><input class="form-control" type="text" name="street" placeholder="Street" value="<%=r.address.street%>"></td>
+              </tr>
+              <tr>
+                <th>Building</th>
+                <td><input class="form-control" type="text" name="building" placeholder="Building" value="<%=r.address.building%>"></td>
+              </tr>
+              <tr>
+                <th>Zipcode</th>
+                <td><input class="form-control" type="text" name="zipcode" placeholder="Zipcode" value="<%=r.address.zipcode%>"></td>
+              </tr>
+              <tr>
+                <th>GPS</th>
+                <td>
+                    <input class="form-control" type="text" name="lon" placeholder="GPS Coordinates (lon.)" value="<%=r.address.coord[0]%>">
+                    <input class="form-control" type="text" name="lat" placeholder="GPS Coordinates (lat.)" value="<%=r.address.coord[1]%>">
+                </td>
+              </tr>
+              <tr>
+                <th>Photo</th>
+                <td><input class="btn btn-success" type="file" name="upload" /></td>
+              </tr>
+              <tr>
+                <th>Owner [*]</th>
+                <td><input class="form-control" type="text" name="owner" value="<%=r.owner%>" readonly></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <p>
+          <a class="btn btn-success btn-lg" href="/display?_id=<%=r._id%>" role="button">&laquo; Cancel</a>
+          <a class="btn btn-success btn-lg" href="/change?_id=<%=r._id%>" role="button">Reset</a>
+          <button class="btn btn-success btn-lg" type="submit">Update</button>
+        </p>
+        </form>
+
+
+        <hr>
+
+      </div> <!-- /container -->
+
+    </main>
+
+    <footer class="container">
+      <p>11784655 SUEN YIK KIN | 11388591 YU KA LEE &copy; OUHK 2017-2018</p>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

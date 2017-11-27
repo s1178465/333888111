@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="https://getbootstrap.com/favicon.ico"> -->
+
+    <title>Restaurants - <%=name%></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/jumbotron/jumbotron.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+    <script type="text/javascript">
+      var loadMap = function () {
+        var myLatLng = { lat: <%=lat%>, lng: <%=lon%>};
+        var map = new google.maps.Map(document.getElementById("map"), {
+          zoom: <%=zoom%>,
+          center: myLatLng
+        });
+        var map = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'OUHK'
+        });
+      };
+      window.onload = loadMap;
+    </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">Restaurants</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="new">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search">Search</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+          <input class="form-control mr-sm-2" type="text" name="name" placeholder="Search for Name" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> | 
+        <form class="form-inline my-2 my-lg-0" action="/logout" method="get">
+            <button class="btn btn-warning my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+      </div>
+    </nav>
+
+    <main role="main">
+      <div class="container">
+        <h1><%=name%> - Map</h1>
+        <p>
+            <div id="map" style="width:500px;height:500px;"></div>
+        </p>
+        <p><a class="btn btn-success btn-lg" href="/display?_id=<%=_id%>" role="button">&laquo; Back</a></p>
+        <hr>
+      </div> <!-- /container -->
+    </main>
+
+    <footer class="container">
+      <p>11784655 SUEN YIK KIN | 11388591 YU KA LEE &copy; OUHK 2017-2018</p>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
